@@ -162,19 +162,22 @@ if __name__ == "__main__":
             break
         elif is_command(command, "count"):
             arg = get_arg(command, "count")
+            do_count = True
             if arg:
-                img_path = get_arg(command, "count")
+                img_path = arg
                 try:
                     image = Image.open(img_path)
                 except FileNotFoundError:
-                    print("invalid image path")
-            if image is not None:
-                bool_walls = find_cells(image, threshold, blur)
-                temp = count(bool_walls)
-                print(str(temp[0]) + " cells were found, giving an average cell area of " +
-                      str(temp[1]) + " pixels per cell.")
-            else:
-                print("You need to enter an image to count")
+                    print("Invalid image path")
+                    do_count = False
+            if do_count:
+                if image is not None:
+                    bool_walls = find_cells(image, threshold, blur)
+                    temp = count(bool_walls)
+                    print(str(temp[0]) + " cells were found, giving an average cell area of " +
+                          str(temp[1]) + " pixels per cell.")
+                else:
+                    print("You need to enter an image to count")
         elif is_command(command, "threshold"):
             arg = get_arg(command, "threshold")
             if arg:
